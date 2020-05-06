@@ -13,6 +13,13 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
       - 'GCLOUD_PROJECT=lil-onboard-gcp'
+  - id: trigger redeploy
+    name: 'gcr.io/cloud-builders/kubectl'
+    args: ['kubectl','patch','deployment','demo-cloud-build-nginx','-p','"{\"spec\": {\"template\": {\"metadata\": { \"annotation\": {  \"redeploy\": \"$(date +%s)\"}}}}}"']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
+      - 'GCLOUD_PROJECT=lil-onboard-gcp'
   - id: get service
     name: 'gcr.io/cloud-builders/kubectl'
     args: ['get','service','demo-cloud-build-nginx']
