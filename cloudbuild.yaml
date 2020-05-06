@@ -13,5 +13,12 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
       - 'GCLOUD_PROJECT=lil-onboard-gcp'
+  - id: get service
+    name: 'gcr.io/cloud-builders/kubectl'
+    args: ['get','service','demo-cloud-build-nginx']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
+      - 'GCLOUD_PROJECT=lil-onboard-gcp'
 images:
   - 'gcr.io/$PROJECT_ID/onboard:latest'
