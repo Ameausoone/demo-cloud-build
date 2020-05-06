@@ -15,7 +15,7 @@ steps:
       - 'GCLOUD_PROJECT=lil-onboard-gcp'
   - id: trigger redeploy
     name: 'gcr.io/cloud-builders/kubectl'
-    args: ['kubectl','patch','deployment','demo-cloud-build-nginx','-p','"{\"spec\": {\"template\": {\"metadata\": { \"annotation\": {  \"redeploy\": \"$(date +%s)\"}}}}}"']
+    args: ['kubectl','patch','deployment','demo-cloud-build-nginx','-p','{"spec": {"template": {"metadata": { "annotation": { "redeploy": "$COMMIT_SHA"}}}}}']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
