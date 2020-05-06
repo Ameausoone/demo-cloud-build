@@ -1,5 +1,17 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/quickstart-image', '.' ]
+  - id: build
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/onboard:latest', '.' ]
+  # Push the container image to Container Registry
+  - id: push
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/onboard:latest']
+  - id: deploy
+    name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply','-f ','deploy.yaml']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=demo-gke'
+      - 'GCLOUD_PROJECT=lil-onboard-gcp'
 images:
-  - 'gcr.io/$PROJECT_ID/quickstart-image'
+  - 'gcr.io/$PROJECT_ID/onboard:latest'
